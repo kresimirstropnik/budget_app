@@ -3,6 +3,8 @@ package com.example.budget_app.model;
 import jakarta.persistence.*;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "expenses")
 public class Expense {
@@ -13,6 +15,7 @@ public class Expense {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user;
 
     @ManyToOne
@@ -78,8 +81,6 @@ public class Expense {
     public void setExpenseDate(Date expenseDate) {
         this.expenseDate = expenseDate;
     }
-
-    // Additional methods or overrides can be added as needed
 
     @Override
     public String toString() {
