@@ -1,0 +1,13 @@
+com\example\budget_app\controller\UserController.class
+com\example\budget_app\dto\ExpenseDTO.class
+com\example\budget_app\repository\ExpenseRepository.class
+com\example\budget_app\specifications\ExpenseSpecifications.class
+com\example\budget_app\repository\CategoryRepository.class
+com\example\budget_app\model\Expense.class
+com\example\budget_app\controller\CategoryController.class
+com\example\budget_app\controller\ExpenseController.class
+com\example\budget_app\model\User.class
+com\example\budget_app\BudgetAppApplication.class
+com\example\budget_app\model\Category.class
+com\example\budget_app\repository\UserRepository.class
+com\example\budget_app\config\WebSecurityConfig.class
