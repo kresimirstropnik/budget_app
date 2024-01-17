@@ -2,11 +2,24 @@ package com.example.budget_app.dto;
 
 import java.util.Date;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Data Transfer Object for Expense")
 public class ExpenseDTO {
+
+    @Schema(description = "Unique identifier of the Expense", example = "1")
     private Long id;
+
+    @Schema(description = "User ID associated with the Expense", example = "101")
     private Long userId;
+
+    @Schema(description = "Category ID for the Expense", example = "5")
     private Long categoryId;
+
+    @Schema(description = "Amount of the Expense", example = "100.50")
     private Double amount;
+
+    @Schema(description = "Date of the Expense", example = "2023-01-15", format = "date")
     private Date expenseDate;
 
     public ExpenseDTO() {

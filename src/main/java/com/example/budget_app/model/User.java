@@ -5,30 +5,38 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @Entity
 @Table(name = "users")
+@Schema(description = "User Entity representing a user of the application")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Unique identifier of the User", example = "1")
     private Long id;
 
     @Column(unique = true, nullable = false)
+    @Schema(description = "Username of the User", example = "john_doe")
     private String username;
 
     @Column(nullable = false)
+    @Schema(description = "Password of the User", example = "password123", accessMode = Schema.AccessMode.WRITE_ONLY)
     private String password;
 
     @Column(name = "account_balance", nullable = false)
+    @Schema(description = "Account balance of the User", example = "500.00")
     private Double accountBalance;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
+    @Schema(description = "List of Expenses associated with the User")
     private List<Expense> expenses;
 
     // Constructors
     public User() {
-        // Default constructor
+        // Default constructor for JPA/Hibernate
     }
 
     public User(String username, String password, Double accountBalance) {

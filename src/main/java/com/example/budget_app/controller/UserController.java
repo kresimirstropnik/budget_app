@@ -8,8 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import com.example.budget_app.model.User;
 import com.example.budget_app.repository.UserRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "User Management", description = "Operations pertaining to user management")
 public class UserController {
 
     @Autowired
@@ -17,6 +23,10 @@ public class UserController {
 
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
+    @Operation(summary = "Register a new user", description = "Registers a new user with a username and password", responses = {
+        @ApiResponse(description = "User successfully registered", responseCode = "200", content = @Content(mediaType = "application/json")),
+        @ApiResponse(description = "Username is already taken", responseCode = "400", content = @Content(mediaType = "application/json"))
+    })
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         // Check if user already exists
@@ -30,6 +40,10 @@ public class UserController {
         return ResponseEntity.ok(savedUser);
     }
 
+    @Operation(summary = "Login a user", description = "Logs in a user with username and password", responses = {
+        @ApiResponse(description = "User successfully logged in", responseCode = "200", content = @Content(mediaType = "application/json")),
+        @ApiResponse(description = "Invalid credentials", responseCode = "401", content = @Content(mediaType = "application/json"))
+    })
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody User user) {
         User foundUser = userRepository.findByUsername(user.getUsername());
@@ -40,6 +54,4 @@ public class UserController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
     }
-
-    // Other CRUD endpoints for User
 }

@@ -1,5 +1,7 @@
 package com.example.budget_app.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/expenses")
+@Tag(name = "Expenses", description = "The Expense API")
 public class ExpenseController {
 
     @Autowired
@@ -34,7 +37,7 @@ public class ExpenseController {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    // Get All Expenses
+    @Operation(summary = "Get all expenses", description = "Returns a list of all expenses")
     @GetMapping
     public List<ExpenseDTO> getAllExpenses() {
         List<Expense> expenses = expenseRepository.findAll();
@@ -43,7 +46,7 @@ public class ExpenseController {
                        .collect(Collectors.toList());
     }
 
-    // Get Expense by ID
+    @Operation(summary = "Get expense by ID", description = "Returns a single expense by ID")
     @GetMapping("/{id}")
     public ResponseEntity<ExpenseDTO> getExpenseById(@PathVariable Long id) {
         return expenseRepository.findById(id)
@@ -52,6 +55,7 @@ public class ExpenseController {
                                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Filter expenses", description = "Filters expenses by various criteria")
     @GetMapping("/filter")
     public List<ExpenseDTO> getExpensesByCriteria(
             @RequestParam(required = false) Long categoryId,
@@ -70,7 +74,7 @@ public class ExpenseController {
                        .collect(Collectors.toList());
     }
 
-    // Get spending for last month, quarter and year
+    @Operation(summary = "Get expense aggregates", description = "Gets aggregated expense data for the last month, quarter, and year")
     @GetMapping("/aggregates")
     public ResponseEntity<Map<String, Double>> getExpenseAggregates() {
         Map<String, Double> aggregates = new HashMap<>();
@@ -81,7 +85,7 @@ public class ExpenseController {
         return ResponseEntity.ok(aggregates);
     }
 
-    // Create a New Expense
+    @Operation(summary = "Create a new expense", description = "Creates a new expense")
     @PostMapping
     public ResponseEntity<?> addExpense(@RequestBody Expense expense) {
         Optional<User> user = userRepository.findById(expense.getUser().getId());
@@ -100,7 +104,7 @@ public class ExpenseController {
         return ResponseEntity.ok(convertToDTO(savedExpense));
     }
 
-    // Update an Existing Expense
+    @Operation(summary = "Update an existing expense", description = "Updates an existing expense")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateExpense(@PathVariable Long id, @RequestBody Expense expenseDetails) {
         return expenseRepository.findById(id).map(existingExpense -> {
@@ -132,7 +136,7 @@ public class ExpenseController {
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Delete an Expense
+    @Operation(summary = "Delete an expense", description = "Deletes an expense")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteExpense(@PathVariable Long id) {
         return expenseRepository.findById(id).map(expense -> {

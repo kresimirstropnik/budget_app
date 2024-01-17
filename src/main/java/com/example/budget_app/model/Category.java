@@ -1,21 +1,25 @@
 package com.example.budget_app.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "categories")
+@Schema(description = "Category Entity representing a category of expenses")
 public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Unique identifier of the Category", example = "1")
     private Long id;
 
     @Column(nullable = false)
+    @Schema(description = "Name of the Category", example = "Utilities")
     private String name;
 
     // Constructors
     public Category() {
-        // Default constructor
+        // Default constructor for JPA/Hibernate
     }
 
     public Category(String name) {
